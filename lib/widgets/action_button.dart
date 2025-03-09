@@ -21,27 +21,73 @@ class ActionButton extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Вы уверены?'),
-          content: Text(title),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Отмена'),
+          backgroundColor: Color.fromARGB(255, 239, 214, 22),
+          title: Column(
+            children: [
+              Text(
+                'Вы уверены?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              Divider(
+                color: Colors.red,
+                thickness: 2,
+              )
+            ],
+          ),
+          content: Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                athleteCtrl.updateAthleteWorkouts(
-                  athleteId,
-                  athleteData['name'],
-                  athleteData['phone'],
-                  athleteData['workouts'],
-                  condition,
-                );
-              },
-              child: Text('Да'),
+          ),
+          actions: [
+            PhysicalModel(
+              color: Color.fromARGB(255, 245, 124, 43),
+              elevation: 5,
+              borderRadius: BorderRadius.circular(30),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Нет',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ),
+            ),
+            PhysicalModel(
+              color: Color.fromARGB(255, 52, 252, 2),
+              elevation: 5,
+              borderRadius: BorderRadius.circular(30),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  athleteCtrl.updateAthleteWorkouts(
+                    athleteId,
+                    athleteData['name'],
+                    athleteData['phone'],
+                    athleteData['workouts'],
+                    condition,
+                  );
+                },
+                child: Text(
+                  'Да',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ),
             ),
           ],
         );
@@ -64,21 +110,25 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        _showConfirmationDialog(context, setTitle(condition));
-      },
-      style: TextButton.styleFrom(
-        backgroundColor: athleteCtrl.setCardInputsColor(athleteData),
-        padding: EdgeInsets.all(8),
-      ),
-      child: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
+    return PhysicalModel(
+      color: athleteCtrl.setCardInputsColor(athleteData),
+      elevation: 15,
+      borderRadius: BorderRadius.circular(30),
+      child: TextButton(
+        onPressed: () {
+          _showConfirmationDialog(context, setTitle(condition));
+        },
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.all(8),
+        ),
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
         ),
       ),
     );

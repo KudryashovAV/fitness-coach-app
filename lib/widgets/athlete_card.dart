@@ -1,5 +1,6 @@
 import 'package:fitness_coach_app/controllers/athletes_controller.dart';
 import 'package:fitness_coach_app/widgets/action_button.dart';
+import 'package:fitness_coach_app/widgets/athlete_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,44 +56,32 @@ class AthleteCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.5),
+                    offset: Offset(2, 2),
+                    blurRadius: 10,
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      color: athleteCtrl.setCardInputsColor(athleteData),
-                    ),
-                    child: Text(
-                      athleteData['phone'],
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                  child: AthleteInfo(
+                    withoutPadding: false,
+                    athleteData: athleteData,
+                    title: athleteData['phone'],
                   ),
                 ),
                 SizedBox(width: 8),
                 Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      color: athleteCtrl.setCardInputsColor(athleteData),
-                    ),
-                    child: Text(
-                      'Осталось ${athleteData['workouts']} ${workoutTitle(athleteData['workouts'])}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                  child: AthleteInfo(
+                    withoutPadding: true,
+                    athleteData: athleteData,
+                    title:
+                        'Осталось ${athleteData['workouts']} ${workoutTitle(athleteData['workouts'])}',
                   ),
                 ),
               ],
