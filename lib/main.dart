@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       color: const Color(0xffF4F4F4),
-      title: 'Family App',
+      title: 'Coach App',
       debugShowCheckedModeBanner: false,
       initialBinding: AppBinding(),
       builder: EasyLoading.init(),

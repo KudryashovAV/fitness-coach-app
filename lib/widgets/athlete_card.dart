@@ -1,4 +1,5 @@
 import 'package:fitness_coach_app/controllers/athletes_controller.dart';
+import 'package:fitness_coach_app/screens/athlete_screen.dart';
 import 'package:fitness_coach_app/widgets/action_button.dart';
 import 'package:fitness_coach_app/widgets/athlete_info.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class AthleteCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              athleteData['name'] ?? 'Безымянный спортсмен',
+              '${athleteData['name']}',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -117,22 +118,33 @@ class AthleteCard extends StatelessWidget {
                 ),
                 SizedBox(width: 8),
                 Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      print('Кнопка 4 нажата');
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor:
-                          athleteCtrl.setCardInputsColor(athleteData),
-                      padding: EdgeInsets.all(8),
-                    ),
-                    child: Text(
-                      'Показать всё',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                  child: PhysicalModel(
+                    color: setCardColor(),
+                    elevation: 5,
+                    borderRadius: BorderRadius.circular(30),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(
+                          () => AthleteScreen(
+                            athleteData: athleteData,
+                            athleteId: athleteId,
+                          ),
+                          transition: Transition.downToUp,
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor:
+                            athleteCtrl.setCardInputsColor(athleteData),
+                        padding: EdgeInsets.all(8),
+                      ),
+                      child: Text(
+                        'Показать всё',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),

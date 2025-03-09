@@ -11,6 +11,7 @@ class AthletesController extends GetxController {
   var ownerId = ''.obs;
   var workouts = '0'.obs;
   var athletes = <Athlete>[].obs;
+  final editCtrl = TextEditingController();
 
   dynamic setCardInputsColor(data) {
     if (int.parse(data['workouts']) <= 0) {
@@ -44,6 +45,18 @@ class AthletesController extends GetxController {
     }
   }
 
+  void updateAthletePhone(String id) async {
+    try {
+      await _firestore.collection('athletes').doc(id).update({
+        'phone': phone.toString(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+      Get.snackbar('Успех', 'Номер успешно обновлён!');
+    } catch (e) {
+      Get.snackbar('Ошибка', 'Не удалось отправить данные: $e');
+    }
+  }
+
   void updateAthleteWorkouts(
     String id,
     String athleteName,
@@ -67,13 +80,13 @@ class AthletesController extends GetxController {
 
     switch (type) {
       case 'decrease':
-        title = '-1 тренирока. Текущее количество тренировок: $count';
+        title = '-1 тренировка. Было: $workouts, стало: $count тренировок.';
       case 'increase 10':
-        title = '+10 тренировок. Текущее количество тренировок: $count';
+        title = '+10 тренировок. Было: $workouts, стало: $count тренировок.';
       case 'increase 1':
-        title = '+1 тренирока. Текущее количество тренировок: $count';
+        title = '+1 тренировка. Было: $workouts, стало: $count тренировок.';
       default:
-        title = '-1 тренирока. Текущее количество тренировок: $count';
+        title = '-1 тренировка. Было: $workouts, стало: $count тренировок.';
     }
 
     try {
@@ -100,5 +113,18 @@ class AthletesController extends GetxController {
     } catch (e) {
       Get.snackbar('Ошибка', 'Не удалось списать тренировку: $e');
     }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchWorkoutHistory(
+      String athleteId) async {
+    QuerySnapshot querySnapshot = await _firestore
+        .collection('workoutHistories')
+        .where('athleteId', isEqualTo: athleteId)
+        .orderBy('createdAt', descending: true)
+        .get();
+
+    return querySnapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList();
   }
 }
