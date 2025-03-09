@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "96391412942",
+    "project_id": "free-fitness-coach-app",
+    "storage_bucket": "free-fitness-coach-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96391412942:android:762a02c40211cb847c249f",
+        "android_client_info": {
+          "package_name": "com.example.fitness_coach_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZfO0F4gJxE8kZVqVWnxzDqEBNKQ4ezug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
