@@ -1,4 +1,5 @@
 import 'package:fitness_coach_app/controllers/athletes_controller.dart';
+import 'package:fitness_coach_app/models/athlete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +8,7 @@ class ActionButton extends StatelessWidget {
   final String athleteId;
   final String title;
   final String condition;
-  final dynamic athleteData;
+  final Athlete athleteData;
 
   ActionButton(
       {required this.title,
@@ -74,9 +75,9 @@ class ActionButton extends StatelessWidget {
                   Navigator.pop(context);
                   athleteCtrl.updateAthleteWorkouts(
                     athleteId,
-                    athleteData['name'],
-                    athleteData['phone'],
-                    athleteData['workouts'],
+                    athleteData.name,
+                    athleteData.phone,
+                    athleteData.workouts,
                     condition,
                   );
                 },

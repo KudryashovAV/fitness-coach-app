@@ -11,17 +11,20 @@ class AthletesController extends GetxController {
   var ownerId = ''.obs;
   var workouts = '0'.obs;
   var athletes = <Athlete>[].obs;
+  var allAthletes = <Athlete>[].obs;
+  var searchValue = ''.obs;
   final editCtrl = TextEditingController();
+  var isLoading = false.obs;
 
   dynamic setCardInputsColor(data) {
-    if (int.parse(data['workouts']) <= 0) {
+    if (int.parse(data.workouts) <= 0) {
       return const Color.fromARGB(255, 246, 110, 98);
     }
 
-    if (int.parse(data['workouts']) > 8) {
+    if (int.parse(data.workouts) > 8) {
       return const Color.fromARGB(255, 48, 247, 3);
     } else {
-      if (int.parse(data['workouts']) < 3) {
+      if (int.parse(data.workouts) < 3) {
         return const Color.fromARGB(255, 239, 132, 38);
       } else {
         return Colors.orange[300];
@@ -29,10 +32,55 @@ class AthletesController extends GetxController {
     }
   }
 
+  Future<List<Athlete>> fetchAthletes(String query) async {
+    QuerySnapshot snapshot = await _firestore
+        .collection('athletes')
+        .orderBy('name', descending: false)
+        .get();
+
+    List<DocumentSnapshot> results = snapshot.docs.where((doc) {
+      String text = doc['name'];
+      return text.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
+    return results
+        .map((result) => Athlete(
+            id: result.id,
+            name: result['name'],
+            phone: result['phone'],
+            workouts: result['workouts'],
+            ownerId: result['ownerId'],
+            createdAt: result['createdAt'].toDate(),
+            updatedAt: result['updatedAt'].toDate()))
+        .toList();
+  }
+
+  Future<void> baseAthletesSearch() async {
+    final result = await _firestore
+        .collection('athletes')
+        .orderBy('name', descending: false)
+        .get();
+
+    athletes.assignAll(
+        result.docs.map((doc) => Athlete.fromMap(doc.data(), doc.id)).toList());
+  }
+
+  Future<void> searchAthletes(String query) async {
+    isLoading(true);
+    try {
+      final result = await fetchAthletes(query);
+      athletes.assignAll(result);
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading(false);
+    }
+  }
+
   void addAthlete() async {
     try {
       await _firestore.collection('athletes').add({
-        'name': name.toString(),
+        'name': name.toString().toLowerCase(),
         'phone': phone.toString(),
         'workouts': workouts.toString().replaceAll(RegExp(r'\D'), ''),
         'createdAt': FieldValue.serverTimestamp(),

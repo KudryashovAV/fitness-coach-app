@@ -1,7 +1,7 @@
 import 'package:fitness_coach_app/controllers/athletes_controller.dart';
+import 'package:fitness_coach_app/models/athlete.dart';
 import 'package:fitness_coach_app/screens/home_screen.dart';
 import 'package:fitness_coach_app/widgets/workout_history_list.dart';
-// import 'package:fitness_coach_app/widgets/workout_history_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -10,7 +10,7 @@ class AthleteScreen extends StatelessWidget {
   AthleteScreen(
       {required this.athleteData, required this.athleteId, super.key});
 
-  final dynamic athleteData;
+  final Athlete athleteData;
   final String athleteId;
   final athletesCtrl = Get.find<AthletesController>();
 
@@ -18,7 +18,7 @@ class AthleteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${athleteData['name']}. Полная информация.'),
+        title: Text('${athleteData.name}. Полная информация.'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -44,7 +44,7 @@ class AthleteScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  athleteData['name'],
+                  athleteData.name,
                   style: TextStyle(
                     fontSize: 17,
                   ),
@@ -60,7 +60,7 @@ class AthleteScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextFormField(
-                    initialValue: athleteData['phone'],
+                    initialValue: athleteData.phone,
                     decoration: InputDecoration(
                       labelText: 'Номер телефона',
                       labelStyle: TextStyle(
@@ -106,7 +106,7 @@ class AthleteScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  athleteData['workouts'],
+                  athleteData.workouts,
                   style: TextStyle(
                     fontSize: 17,
                   ),
