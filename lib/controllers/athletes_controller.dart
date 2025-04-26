@@ -99,6 +99,7 @@ class AthletesController extends GetxController {
         'phone': phone.toString(),
         'updatedAt': FieldValue.serverTimestamp(),
       });
+      baseAthletesSearch();
       Get.snackbar('Успех', 'Номер успешно обновлён!');
     } catch (e) {
       Get.snackbar('Ошибка', 'Не удалось отправить данные: $e');
@@ -156,8 +157,11 @@ class AthletesController extends GetxController {
           'createdAt': FieldValue.serverTimestamp(),
         });
       });
+
+      baseAthletesSearch();
+
       Get.snackbar('Успех',
-          'Тренировка ${type == 'increase' ? 'добавлена' : 'списана'}');
+          'Тренировка ${type.contains('increase') ? 'добавлена' : 'списана'}');
     } catch (e) {
       Get.snackbar('Ошибка', 'Не удалось списать тренировку: $e');
     }
