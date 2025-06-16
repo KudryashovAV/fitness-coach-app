@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitness_coach_app/models/athlete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AthletesController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -15,6 +16,7 @@ class AthletesController extends GetxController {
   var searchValue = ''.obs;
   final editCtrl = TextEditingController();
   var isLoading = false.obs;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   dynamic setCardInputsColor(data) {
     if (int.parse(data.workouts) <= 0) {
@@ -35,7 +37,8 @@ class AthletesController extends GetxController {
   Future<List<Athlete>> fetchAthletes(String query) async {
     QuerySnapshot snapshot = await _firestore
         .collection('athletes')
-        .orderBy('name', descending: false)
+        .where('ownerId', isEqualTo: user?.uid)
+        .orderBy('updatedAt', descending: true)
         .get();
 
     List<DocumentSnapshot> results = snapshot.docs.where((doc) {
@@ -58,7 +61,8 @@ class AthletesController extends GetxController {
   Future<void> baseAthletesSearch() async {
     final result = await _firestore
         .collection('athletes')
-        .orderBy('name', descending: false)
+        .where('ownerId', isEqualTo: user?.uid)
+        .orderBy('updatedAt', descending: true)
         .get();
 
     athletes.assignAll(
@@ -85,8 +89,10 @@ class AthletesController extends GetxController {
         'workouts': workouts.toString().replaceAll(RegExp(r'\D'), ''),
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
-        'ownerId': ownerId.toString(),
+        'ownerId': user?.uid,
       });
+
+      baseAthletesSearch();
       Get.snackbar('Успех', 'Спортсмен успешно создан!');
     } catch (e) {
       Get.snackbar('Ошибка', 'Не удалось отправить данные: $e');
@@ -153,7 +159,7 @@ class AthletesController extends GetxController {
           'athleteId': id,
           'athleteName': athleteName,
           'athletePhone': athletePhone,
-          'ownerId': '',
+          'ownerId': user?.uid,
           'createdAt': FieldValue.serverTimestamp(),
         });
       });
