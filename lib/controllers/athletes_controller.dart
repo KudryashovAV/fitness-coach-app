@@ -17,6 +17,8 @@ class AthletesController extends GetxController {
   final editCtrl = TextEditingController();
   var isLoading = false.obs;
   final User? user = FirebaseAuth.instance.currentUser;
+  final ScrollController scrollController = ScrollController();
+
 
   dynamic setCardInputsColor(data) {
     if (int.parse(data.workouts) <= 0) {
@@ -165,6 +167,12 @@ class AthletesController extends GetxController {
       });
 
       baseAthletesSearch();
+
+      scrollController.animateTo(
+        scrollController.position.minScrollExtent, // Самая верхняя позиция (0.0)
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
 
       Get.snackbar('Успех',
           'Тренировка ${type.contains('increase') ? 'добавлена' : 'списана'}');

@@ -43,6 +43,7 @@ class AthletesSearch extends StatelessWidget {
                 collection = athletesCtrl.athletes;
               }
               return ListView.builder(
+                controller: athletesCtrl.scrollController,
                 itemCount: collection.length,
                 itemBuilder: (context, index) {
                   final athlete = collection[index];
