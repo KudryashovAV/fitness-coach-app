@@ -19,7 +19,6 @@ class AthletesController extends GetxController {
   final User? user = FirebaseAuth.instance.currentUser;
   final ScrollController scrollController = ScrollController();
 
-
   dynamic setCardInputsColor(data) {
     if (int.parse(data.workouts) <= 0) {
       return const Color.fromARGB(255, 246, 110, 98);
@@ -169,7 +168,8 @@ class AthletesController extends GetxController {
       baseAthletesSearch();
 
       scrollController.animateTo(
-        scrollController.position.minScrollExtent, // Самая верхняя позиция (0.0)
+        scrollController
+            .position.minScrollExtent, // Самая верхняя позиция (0.0)
         duration: Duration(milliseconds: 500),
         curve: Curves.easeOut,
       );

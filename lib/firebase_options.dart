@@ -51,6 +51,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '96391412942',
     projectId: 'free-fitness-coach-app',
     storageBucket: 'free-fitness-coach-app.firebasestorage.app',
-    iosBundleId: 'com.example.fitnessCoachApp',
+    iosBundleId: 'com.proventusoft.fitnessCoachApp',
   );
 }

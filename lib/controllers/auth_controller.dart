@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../repositories/auth_repository.dart';
 
 class AuthController extends GetxController {
@@ -48,6 +49,11 @@ class AuthController extends GetxController {
         emailController.text.trim(),
         passwordController.text.trim(),
       );
+
+      final User? user = FirebaseAuth.instance.currentUser;
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final userUid = user?.uid;
+      await prefs.setString('current_user', userUid ?? '');
       // Если дошли сюда, значит пользователь успешно вошел,
       // _goToHomeOrLogin будет вызван автоматически через слушателя firebaseUser
     } on AuthException catch (e) {
