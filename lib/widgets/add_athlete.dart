@@ -47,11 +47,20 @@ class AddAthlete extends StatelessWidget {
                       }
                     else
                       {
-                        athletesCtrl.addAthlete(),
-                        athletesCtrl.name.value = '',
-                        athletesCtrl.phone.value = '',
-                        athletesCtrl.workouts.value = '0',
-                        Get.back()
+                        if (RegExp(r"^\+\d{12}$")
+                            .hasMatch(athletesCtrl.phone.value))
+                          {
+                            athletesCtrl.addAthlete(),
+                            athletesCtrl.name.value = '',
+                            athletesCtrl.phone.value = '',
+                            athletesCtrl.workouts.value = '0',
+                            Get.back()
+                          }
+                        else
+                          {
+                            EasyLoading.showError(
+                                'Номер должен быть в формате +ХХХХХХХХХХХХ')
+                          },
                       },
                   },
               },

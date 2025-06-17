@@ -113,6 +113,16 @@ class AthletesController extends GetxController {
     }
   }
 
+  void deleteAthlete(String id) async {
+    try {
+      await _firestore.collection('athletes').doc(id).delete();
+      baseAthletesSearch();
+      Get.snackbar('Успех', 'Спортсмен удалён');
+    } catch (e) {
+      Get.snackbar('Ошибка', 'Не удалось отправить данные: $e');
+    }
+  }
+
   void updateAthleteWorkouts(
     String id,
     String athleteName,

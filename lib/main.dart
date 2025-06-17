@@ -6,6 +6,8 @@ import 'firebase_options.dart';
 import 'bindings/login_binding.dart';
 import 'screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,8 +21,9 @@ void main() async {
 
   runApp(
     GetMaterialApp(
-      title: "Firebase GetX Auth Demo",
+      title: 'Fitnes Coach APP',
       initialRoute: userUid == '' ? '/' : '/home',
+      builder: EasyLoading.init(),
       getPages: [
         GetPage(
           name: '/',
@@ -35,4 +38,17 @@ void main() async {
       debugShowCheckedModeBanner: false,
     ),
   );
+
+  EasyLoading.init();
+  EasyLoading.instance
+    ..loadingStyle = EasyLoadingStyle.custom
+    ..indicatorColor = Colors.white
+    ..backgroundColor = Color(0xff9B111E)
+    ..radius = 30.0
+    ..textColor = Colors.white
+    ..textStyle = GoogleFonts.openSans(
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+    );
 }

@@ -25,6 +25,79 @@ class AthleteCard extends StatelessWidget {
     }
   }
 
+  void _showConfirmationDialog(BuildContext context, String title) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Color.fromARGB(255, 239, 214, 22),
+          title: Column(
+            children: [
+              Text(
+                'Вы уверены?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              Divider(
+                color: Colors.red,
+                thickness: 2,
+              )
+            ],
+          ),
+          content: Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          actions: [
+            PhysicalModel(
+              color: Color.fromARGB(255, 245, 124, 43),
+              elevation: 5,
+              borderRadius: BorderRadius.circular(30),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Нет',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ),
+            ),
+            PhysicalModel(
+              color: Color.fromARGB(255, 52, 252, 2),
+              elevation: 5,
+              borderRadius: BorderRadius.circular(30),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  athleteCtrl.deleteAthlete(athleteId);
+                },
+                child: Text(
+                  'Да',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   dynamic setCardColor() {
     if (int.parse(athleteData.workouts) <= 0) {
       return const Color.fromARGB(255, 228, 30, 12);
@@ -123,7 +196,11 @@ class AthleteCard extends StatelessWidget {
                       athleteData: athleteData,
                     ),
                   ),
-                  SizedBox(width: 8),
+                ],
+              ),
+              SizedBox(height: 16),
+              Row(
+                children: [
                   Expanded(
                     child: PhysicalModel(
                       color: setCardColor(),
@@ -142,7 +219,7 @@ class AthleteCard extends StatelessWidget {
                         style: TextButton.styleFrom(
                           backgroundColor:
                               athleteCtrl.setCardInputsColor(athleteData),
-                          padding: EdgeInsets.all(8),
+                          padding: EdgeInsets.all(16),
                         ),
                         child: Text(
                           'Показать всё',
@@ -156,8 +233,35 @@ class AthleteCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(width: 110),
+                  Expanded(
+                    child: PhysicalModel(
+                      color: setCardColor(),
+                      elevation: 5,
+                      borderRadius: BorderRadius.circular(30),
+                      child: TextButton(
+                        onPressed: () {
+                          _showConfirmationDialog(
+                              context, 'Хотите удалить спортсмена?');
+                        },
+                        style: TextButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 104, 5, 5),
+                          padding: EdgeInsets.all(8),
+                        ),
+                        child: Text(
+                          'Удалить спортсмена',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
-              ),
+              )
             ],
           ),
         ),
