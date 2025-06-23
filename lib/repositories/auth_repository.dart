@@ -17,6 +17,7 @@ class AuthRepository extends GetxService {
 
   @override
   void onInit() {
+    print('calllll2ll2l2l2l56756utyjtjfghjgjghjghjfghjfghj');
     super.onInit();
     firebaseUser.bindStream(_firebaseAuth.authStateChanges());
   }
@@ -24,7 +25,8 @@ class AuthRepository extends GetxService {
   // Вход по Email и Паролю
   Future<User?> signInWithEmail(String email, String password) async {
     try {
-      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -44,7 +46,8 @@ class AuthRepository extends GetxService {
   // Регистрация по Email и Паролю
   Future<User?> signUpWithEmail(String email, String password) async {
     try {
-      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -63,6 +66,8 @@ class AuthRepository extends GetxService {
 
   // Выход
   Future<void> signOut() async {
+    print('s1');
     await _firebaseAuth.signOut();
+    print('s2');
   }
 }

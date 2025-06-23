@@ -86,4 +86,19 @@ class AuthController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future<void> signOut() async {
+    isLoading.value = true;
+    errorMessage.value = '';
+    try {
+      await _authRepository.signOut();
+      // Аналогично, _goToHomeOrLogin будет вызван
+    } on AuthException catch (e) {
+      errorMessage.value = e.message;
+    } catch (e) {
+      errorMessage.value = 'Неизвестная ошибка выхода.';
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

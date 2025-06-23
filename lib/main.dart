@@ -1,43 +1,17 @@
+import 'package:fitness_coach_app/bindings/app_binding.dart';
+import 'package:fitness_coach_app/screens/home_screen.dart';
+import 'package:fitness_coach_app/bindings/app_binding.dart';
+import 'package:fitness_coach_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-import 'package:fitness_coach_app/screens/home_screen.dart';
-import 'firebase_options.dart';
-import 'bindings/login_binding.dart';
-import 'screens/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions
-        .currentPlatform, // Используйте сгенерированный файл
-  );
-
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String? userUid = prefs.getString('current_user');
-
-  runApp(
-    GetMaterialApp(
-      title: 'Fitnes Coach APP',
-      initialRoute: userUid == '' ? '/' : '/home',
-      builder: EasyLoading.init(),
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => LoginView(),
-          binding: LoginBinding(), // Привязываем контроллер к представлению
-        ),
-        GetPage(
-          name: '/home',
-          page: () => HomeScreen(),
-        ),
-      ],
-      debugShowCheckedModeBanner: false,
-    ),
-  );
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 
   EasyLoading.init();
   EasyLoading.instance
@@ -51,4 +25,20 @@ void main() async {
       fontSize: 16,
       fontWeight: FontWeight.bold,
     );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      color: const Color(0xffF4F4F4),
+      title: 'Coach App',
+      debugShowCheckedModeBanner: false,
+      initialBinding: AppBinding(),
+      builder: EasyLoading.init(),
+      home: HomeScreen(),
+    );
+  }
 }
