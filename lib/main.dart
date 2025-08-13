@@ -33,6 +33,7 @@ void main() async {
         GetPage(
           name: '/home',
           page: () => HomeScreen(),
+          binding: LoginBinding(), // Привязываем контроллер к представлению
         ),
       ],
       debugShowCheckedModeBanner: false,

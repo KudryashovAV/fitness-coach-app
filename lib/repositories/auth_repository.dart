@@ -17,7 +17,6 @@ class AuthRepository extends GetxService {
 
   @override
   void onInit() {
-    print('calllll2ll2l2l2l56756utyjtjfghjgjghjghjfghjfghj');
     super.onInit();
     firebaseUser.bindStream(_firebaseAuth.authStateChanges());
   }
@@ -66,8 +65,6 @@ class AuthRepository extends GetxService {
 
   // Выход
   Future<void> signOut() async {
-    print('s1');
     await _firebaseAuth.signOut();
-    print('s2');
   }
 }

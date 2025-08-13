@@ -10,8 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final athleteCtrl = Get.put(AthletesController());
-  // final authCtrl = Get.put(AuthController());
-  // final User? user = FirebaseAuth.instance.currentUser;
+  final authCtrl = Get.put(AuthController());
+  final User? user = FirebaseAuth.instance.currentUser;
 
   String? getUsernameFromEmail(String? email) {
     if (email == null || !email.contains('@')) {
@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                'Комана тренера', // ${getUsernameFromEmail(user?.email ?? '')}',
+                'Команда тренера ${getUsernameFromEmail(user?.email ?? '')}',
                 style: GoogleFonts.openSans(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   color: Colors.white,
                   onPressed: () {
-                    // authCtrl.signOut();
+                    authCtrl.signOut();
                   },
                   tooltip: 'Добавить',
                 ),

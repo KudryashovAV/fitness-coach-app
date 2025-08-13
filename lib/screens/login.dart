@@ -47,18 +47,18 @@ class LoginView extends GetView<AuthController> {
                     children: [
                       ElevatedButton(
                         onPressed: controller.signIn,
-                        child: Text('Войти'),
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(double.infinity, 50),
                         ),
+                        child: Text('Войти'),
                       ),
                       SizedBox(height: 10),
                       OutlinedButton(
                         onPressed: controller.signUp,
-                        child: Text('Зарегистрироваться'),
                         style: OutlinedButton.styleFrom(
                           minimumSize: Size(double.infinity, 50),
                         ),
+                        child: Text('Зарегистрироваться'),
                       ),
                     ],
                   );
