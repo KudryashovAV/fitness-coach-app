@@ -21,7 +21,7 @@ class LoginView extends GetView<AuthController> {
               TextField(
                 controller: controller.emailController,
                 decoration: InputDecoration(
-                  labelText: 'Email',
+                  labelText: 'Электронная почта',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.email),
                 ),
@@ -34,9 +34,8 @@ class LoginView extends GetView<AuthController> {
                   labelText: 'Пароль',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.lock),
-                  // Можно добавить иконку для скрытия/показа пароля
                 ),
-                obscureText: true, // Скрываем ввод пароля
+                obscureText: true,
               ),
               SizedBox(height: 20),
               Obx(() {

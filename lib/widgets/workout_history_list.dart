@@ -32,8 +32,8 @@ class WorkoutHistoryList extends StatelessWidget {
             final transaction = transactions[index];
             return ListTile(
               title: Text(transaction['title']),
-              subtitle: Text(
-                  'Возраст: ${DateFormat('dd.MM.yyyy HH:mm:ss').format(transaction['createdAt'].toDate())}'),
+              subtitle: Text(DateFormat('dd.MM.yyyy HH:mm:ss')
+                  .format(transaction['createdAt'].toDate())),
             );
           },
         );

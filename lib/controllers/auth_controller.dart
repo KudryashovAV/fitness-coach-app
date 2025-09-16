@@ -5,19 +5,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../repositories/auth_repository.dart';
 
 class AuthController extends GetxController {
-  final AuthRepository _authRepository =
-      Get.find<AuthRepository>(); // Находим AuthRepository
+  final AuthRepository _authRepository = Get.find<AuthRepository>();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  RxBool isLoading = false.obs; // Отслеживаем состояние загрузки
-  RxString errorMessage = ''.obs; // Сообщение об ошибке
+  RxBool isLoading = false.obs;
+  RxString errorMessage = ''.obs;
+
+  String checkAndReturnEmail(String email) {
+    final regex = RegExp(
+        r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$');
+
+    if (!regex.hasMatch(email)) {
+      throw ('Электронная почта содержит ошибку');
+    }
+
+    return email.trim();
+  }
 
   @override
   void onInit() {
     super.onInit();
-    // Привязываем слушатель к состоянию пользователя
     ever(_authRepository.firebaseUser, _goToHomeOrLogin);
   }
 
@@ -46,7 +55,7 @@ class AuthController extends GetxController {
     errorMessage.value = '';
     try {
       await _authRepository.signInWithEmail(
-        emailController.text.trim(),
+        checkAndReturnEmail(emailController.text),
         passwordController.text.trim(),
       );
 
@@ -54,8 +63,6 @@ class AuthController extends GetxController {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final userUid = user?.uid;
       await prefs.setString('current_user', userUid ?? '');
-      // Если дошли сюда, значит пользователь успешно вошел,
-      // _goToHomeOrLogin будет вызван автоматически через слушателя firebaseUser
     } on AuthException catch (e) {
       errorMessage.value = e.message;
     } catch (e) {
@@ -70,10 +77,9 @@ class AuthController extends GetxController {
     errorMessage.value = '';
     try {
       await _authRepository.signUpWithEmail(
-        emailController.text.trim(),
+        checkAndReturnEmail(emailController.text),
         passwordController.text.trim(),
       );
-      // Аналогично, _goToHomeOrLogin будет вызван
       Get.snackbar('Успех!', 'Аккаунт успешно создан. Можете войти.',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.green.withOpacity(0.7),
@@ -81,7 +87,7 @@ class AuthController extends GetxController {
     } on AuthException catch (e) {
       errorMessage.value = e.message;
     } catch (e) {
-      errorMessage.value = 'Неизвестная ошибка регистрации.';
+      errorMessage.value = e.toString();
     } finally {
       isLoading.value = false;
     }
@@ -92,7 +98,6 @@ class AuthController extends GetxController {
     errorMessage.value = '';
     try {
       await _authRepository.signOut();
-      // Аналогично, _goToHomeOrLogin будет вызван
     } on AuthException catch (e) {
       errorMessage.value = e.message;
     } catch (e) {

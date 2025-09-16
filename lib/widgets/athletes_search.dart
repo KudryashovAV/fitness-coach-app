@@ -17,7 +17,7 @@ class AthletesSearch extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Поиск по имени...',
+                hintText: 'Поиск по имени',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),

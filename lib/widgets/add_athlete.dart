@@ -2,6 +2,7 @@ import 'package:fitness_coach_app/controllers/athletes_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class AddAthlete extends StatelessWidget {
   AddAthlete({super.key});
@@ -21,11 +22,22 @@ class AddAthlete extends StatelessWidget {
               decoration: InputDecoration(labelText: 'Имя'),
               onChanged: (value) => athletesCtrl.name.value = value,
             ),
+            // SizedBox(height: 16),
+            // TextField(
+            //   decoration: InputDecoration(labelText: 'Номер телефона'),
+            //   keyboardType: TextInputType.phone,
+            //   onChanged: (value) => athletesCtrl.phone.value = value,
+            // ),
             SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(labelText: 'Номер телефона'),
-              keyboardType: TextInputType.phone,
-              onChanged: (value) => athletesCtrl.phone.value = value,
+            IntlPhoneField(
+              decoration: InputDecoration(
+                labelText: 'Номер телефона',
+                border: OutlineInputBorder(),
+              ),
+              initialCountryCode: 'BY',
+              autovalidateMode: AutovalidateMode.disabled,
+              onChanged: (phone) =>
+                  athletesCtrl.phone.value = phone.completeNumber,
             ),
             SizedBox(height: 16),
             TextField(
@@ -47,8 +59,11 @@ class AddAthlete extends StatelessWidget {
                       }
                     else
                       {
-                        if (RegExp(r"^\+\d{12}$")
-                            .hasMatch(athletesCtrl.phone.value))
+                        if (athletesCtrl.phone.value.substring(0, 4) == "+375"
+                            ? RegExp(r"^\+\d{12}$")
+                                .hasMatch(athletesCtrl.phone.value)
+                            : RegExp(r"^\+\d{11}$")
+                                .hasMatch(athletesCtrl.phone.value))
                           {
                             athletesCtrl.addAthlete(),
                             athletesCtrl.name.value = '',
@@ -58,8 +73,11 @@ class AddAthlete extends StatelessWidget {
                           }
                         else
                           {
-                            EasyLoading.showError(
-                                'Номер должен быть в формате +ХХХХХХХХХХХХ')
+                            EasyLoading.showError(athletesCtrl.phone.value
+                                        .substring(0, 4) ==
+                                    "+375"
+                                ? 'Номер должен быть в формате +ХХХХХХХХХХХХ'
+                                : 'Номер должен быть в формате +ХХХХХХХХХХХ')
                           },
                       },
                   },

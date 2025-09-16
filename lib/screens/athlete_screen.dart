@@ -14,11 +14,20 @@ class AthleteScreen extends StatelessWidget {
   final String athleteId;
   final athletesCtrl = Get.find<AthletesController>();
 
+  String capitalizeName(String name) {
+    if (name.isEmpty) return name;
+
+    return name.split(' ').map((word) {
+      if (word.isEmpty) return word;
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }).join(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${athleteData.name}. Полная информация.'),
+        title: Text('${capitalizeName(athleteData.name)}. Полная информация.'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -44,7 +53,7 @@ class AthleteScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  athleteData.name,
+                  capitalizeName(athleteData.name),
                   style: TextStyle(
                     fontSize: 17,
                   ),
